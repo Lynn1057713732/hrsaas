@@ -60,6 +60,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -101,6 +102,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['user/login']), // 引入方法
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -112,20 +114,28 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      // 表单的手动校验
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+          try {
+            this.loading = true
+            // 只有校验通过了 我们才去调用action
+            await this['user/login'](this.loginForm)
+            // 应该登录成功之后
+            // async标记的函数实际上一个promise对象
+            // await下面的代码 都是成功执行的代码
+            this.$router.push('/')
+            console.log(111)
+          } catch (error) {
+            console.log(error)
+          } finally {
+            //  不论执行try 还是catch  都去关闭转圈
             this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+          }
         }
       })
+      // ref 可以获取一个元素的dom对象
+      // ref作用到组件的上的时候 可以获取该组件的实例  this
     }
   }
 }

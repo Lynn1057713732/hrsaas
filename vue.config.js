@@ -35,6 +35,21 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 这个代理只解决开发环境的代理，跟生产环境无关，生产环境会在nginx上配置
+    proxy: {
+      // 当我们的本地的请求 有/api的时候，就会代理我们的请求地址向另外一个服务器发出请求
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/', // 跨域请求的地址
+        changeOrigin: true // 只有这个值为true的情况下 才表示开启跨域
+        // 重写路径
+        // pathRewrite: {}
+      }
+      // 可代理多个服务器之间的跨域
+      //  '/api-1': {
+      //         target: 'http://ihrm-java.itheima.net/', // 跨域请求的地址
+      //         changeOrigin: true // 只有这个值为true的情况下 才表示开启跨域
+      //       }
     }
   },
   configureWebpack: {
