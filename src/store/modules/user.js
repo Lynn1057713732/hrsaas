@@ -1,11 +1,12 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { login, getUserInfo } from '@/api/user'
 
 // 状态
 const state = {
   // 设置token为共享状态 初始化vuex的时候 就先从缓存中读取
+  // 设置token初始状态   token持久化 => 放到缓存中
   token: getToken(),
-  userInfo: {} // 这里定义一个空对象 为什么要定义空对象
+  userInfo: {} // 定义一个空的对象 不是null 因为后边我要开发userInfo的属性给别人用  userInfo.name,null对象会报错
 }
 // 修改状态
 const mutations = {
@@ -36,6 +37,12 @@ const actions = {
     context.commit('setToken', result) // 设置token
     // 拿到token说明登录成功
     // setTimeStamp() // 设置当前的时间戳
+  },
+  // 获取用户资料action
+  async getUserInfo(context) {
+    const result = await getUserInfo() // 获取返回值
+    context.commit('setUserInfo', result) // 将整个的个人信息设置到用户的vuex数据中
+    return result // 这里为什么要返回 为后面做权限需要这个结果，留下伏笔
   }
 }
 export default {
