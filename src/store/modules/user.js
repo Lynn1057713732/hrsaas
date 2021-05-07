@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 // 状态
 const state = {
@@ -40,9 +40,12 @@ const actions = {
   },
   // 获取用户资料action
   async getUserInfo(context) {
-    const result = await getUserInfo() // 获取返回值
-    context.commit('setUserInfo', result) // 将整个的个人信息设置到用户的vuex数据中
-    return result // 这里为什么要返回 为后面做权限需要这个结果，留下伏笔
+    const result = await getUserInfo() // result就是用户的基本资料
+    const baseInfo = await getUserDetailById(result.userId) // 为了获取头像
+    const baseResult = { ...result, ...baseInfo } // 将两个接口结果合并
+    // 此时已经获取到了用户的基本资料 迫不得已 为了头像再次调用一个接口
+    context.commit('setUserInfo', baseResult) // 将整个的个人信息设置到用户的vuex数据中
+    return baseResult // 这里为什么要返回 为后面做权限需要这个结果，留下伏笔
   }
 }
 export default {
