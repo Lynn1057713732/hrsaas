@@ -126,7 +126,6 @@ export default {
             // async标记的函数实际上一个promise对象
             // await下面的代码 都是成功执行的代码
             this.$router.push('/')
-            console.log(111)
           } catch (error) {
             console.log(error)
           } finally {

@@ -25,7 +25,7 @@ const mutations = {
     // state.userInfo = { ...result } // 这样也是响应式 属于浅拷贝
     // state.userInfo['username'] = result // 这样才不是响应式
   },
-  removeUseInfo(state) {
+  removeUserInfo(state) {
     state.userInfo = {}
   }
 }
@@ -46,6 +46,13 @@ const actions = {
     // 此时已经获取到了用户的基本资料 迫不得已 为了头像再次调用一个接口
     context.commit('setUserInfo', baseResult) // 将整个的个人信息设置到用户的vuex数据中
     return baseResult // 这里为什么要返回 为后面做权限需要这个结果，留下伏笔
+  },
+  // 登出的action
+  logout(context) {
+    // 删除token
+    context.commit('removeToken') // 不仅仅删除了vuex中的 还删除了缓存中的
+    // 删除用户资料
+    context.commit('removeUserInfo') // 删除用户信息
   }
 }
 export default {
