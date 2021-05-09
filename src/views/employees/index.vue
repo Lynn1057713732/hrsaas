@@ -80,7 +80,7 @@
       </el-row>
     </el-dialog>
     <!-- 放置分配组件 -->
-<!--    <assign-role ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />-->
+    <assign-role ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />
   </div>
 </template>
 
@@ -88,11 +88,11 @@
 import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees' // 引入员工的枚举对象
 import AddEmployee from './components/add-employee'
+import AssignRole from './components/assign-role'
 import { formatDate } from '@/filters'
-// import AssignRole from './components/assign-role'
 import QrCode from 'qrcode'
 export default {
-  components: { AddEmployee },
+  components: { AddEmployee, AssignRole },
   data() {
     return {
       list: [], // 接收数组
