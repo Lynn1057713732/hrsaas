@@ -14,6 +14,7 @@ import router from './router'
 
 import * as filters from '@/filters'
 import * as directives from '@/directives'
+import CheckPermission from '@/mixin/checkPermission'
 import Component from '@/components'
 
 import '@/icons' // icon
@@ -47,6 +48,8 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(Component) // 注册自己的插件
+// 全局混入检查对象
+Vue.mixin(CheckPermission) // 表示所有的组件都拥有了检查的方法
 Vue.config.productionTip = false
 new Vue({
   el: '#app',
