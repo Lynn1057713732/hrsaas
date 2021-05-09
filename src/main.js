@@ -12,6 +12,7 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import * as filters from '@/filters'
 import * as directives from '@/directives'
 import Component from '@/components'
 
@@ -40,6 +41,9 @@ Vue.use(ElementUI, { locale })
 Object.keys(directives).forEach(key => {
   // 注册自定义指令
   Vue.directive(key, directives[key])
+})
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key]) // 注册自定义过滤器
 })
 
 Vue.use(Component) // 注册自己的插件
